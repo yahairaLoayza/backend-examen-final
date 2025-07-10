@@ -46,7 +46,7 @@ public class AuthService {
                 .orElseThrow(() -> new RuntimeException("Token inválido"));
     }
 
-    // 🔹 Nuevo metodo: obtener el email desde el token
+
     public String getEmail(String token) {
         return jwtService.extractUsername(token);
     }

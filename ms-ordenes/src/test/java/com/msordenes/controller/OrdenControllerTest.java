@@ -1,14 +1,17 @@
 package com.msordenes.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.msordenes.config.SecurityByPassConfig;
 import com.msordenes.entity.Orden;
 import com.msordenes.security.TokenValidator;
 import com.msordenes.service.OrdenService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -20,6 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(OrdenController.class)
+@Import(SecurityByPassConfig.class)
 public class OrdenControllerTest {
 
     @Autowired
@@ -33,6 +37,10 @@ public class OrdenControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @BeforeEach
+    void setUp() {
+        Mockito.doNothing().when(tokenValidator).validateAdmin(Mockito.anyString());    }
 
     @Test
     void testCrear() throws Exception {
